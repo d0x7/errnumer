@@ -14,7 +14,7 @@ It generates error enumerations and associated helper functions, so you can defi
 Create a go file (e.g., `errors.go`, preferably in your shared Protobuf generated Go package) and add the following `go:generate` directive:
 
 ```go
-//go:generate go run xiam.li/errnumer -type=errnumerAtlasError -output=error_enum.go
+//go:generate go run xiam.li/errnumer/cmd/errnumer -type=errnumerAtlasError -output=error_enum.go
 type errnumerAtlasError struct {
     Code        string
     Description string
