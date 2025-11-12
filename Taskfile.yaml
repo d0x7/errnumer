@@ -1,0 +1,33 @@
+version: 3
+
+vars:
+  APP_NAME: $(basename $(pwd))
+  EXECUTABLE_PATH: ./cmd/{{.APP_NAME}}
+
+tasks:
+  build:
+    aliases:
+      - default
+    desc: Build
+    cmd: go build ./...
+  buildapp:
+    desc: Build errnumer
+    deps:
+      - build
+    cmd: go build -o {{.APP_NAME}} {{.EXECUTABLE_PATH}}/*.go
+  run:
+    desc: Run errnumer
+    cmd: go run {{.EXECUTABLE_PATH}}/*.go
+  install:
+    desc: Install errnumer
+    deps:
+      - buildapp
+    cmd: cp {{.APP_NAME}} $(go env GOPATH)/bin/{{.APP_NAME}}
+  test:
+    desc: Run tests
+    cmd: go test ./...
+  lint:
+    desc: Run linter
+    cmds:
+      - go vet ./...
+      - go run github.com/golangci/golangci-lint/cmd/golangci-lint@latest run --timeout 5m
